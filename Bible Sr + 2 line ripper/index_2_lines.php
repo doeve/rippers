@@ -1,0 +1,4 @@
+<?php
+    for ($book_nr = 0, $file = fopen("wordproject_srb.txt", "w"), ini_set("max_execution_time", 0), print("<b>file will also be written in <i>wordproject_srb.txt</i>.</b><br>"); ($book_nr++ < 66)? true: !fclose($file);) 
+        for ($link = "https://www.wordproject.org/bibles/sr/".sprintf("%02d", $book_nr)."/1.htm", $vid = 1, $chap = 1; substr(get_headers($link)[0], 9, 3) == 200; $webpg = file_get_contents($link), preg_match_all("/span class=\"verse\" id=\"\d*\">\d* <\/span(?:--)?>(?:\s*)(.*)(?:(?:<)|(?:\n))/sU", $webpg, $verses), preg_match("/<h1> ?(.*) ?<\/h1>/", $webpg, $book), $write = array_map(function($verse) {global $book; global $chap; global $vid; return trim($book[1])."\t".$chap."\t".$vid++."\t".trim($verse)."\n"; }, $verses[1]), print(implode("<br>",$write)."<br>"), fwrite($file, implode($write)), $vid = 1, $link = "https://www.wordproject.org/bibles/sr/".sprintf("%02d", $book_nr)."/".++$chap.".htm")
+?>
